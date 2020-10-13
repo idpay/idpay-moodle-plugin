@@ -15,12 +15,10 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * This file keeps track of upgrades to the idpay enrolment plugin
- *
  * @package    enrol_idpay
- * @copyright  2018 SaeedSajadi<saeed.sajadi@gmail.com>
- * @author     Saeed Sajadi
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @copyright  IDPay
+ * @author     Mohammad Nabipour
+ * @license    https://idpay.ir/
  */
 
 // Sometimes, changes between versions involve

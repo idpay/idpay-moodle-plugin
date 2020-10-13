@@ -15,18 +15,12 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * idpay CLI tool.
- *
- * Notes:
- *   - it is required to use the web server account when executing PHP CLI scripts
- *   - you need to change the "www-data" to match the apache user account
- *   - use "su" if "sudo" not available
- *
  * @package    enrol_idpay
- * @copyright  2018 SaeedSajadi<saeed.sajadi@gmail.com>
- * @author     Saeed Sajadi
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @copyright  IDPay
+ * @author     Mohammad Nabipour
+ * @license    https://idpay.ir/
  */
+
 
 define('CLI_SCRIPT', true);
 

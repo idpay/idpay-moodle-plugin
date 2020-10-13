@@ -15,28 +15,28 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * idpay enrolments plugin settings and presets.
  * @package    enrol_idpay
- * @copyright  2018 SaeedSajadi<saeed.sajadi@gmail.com>
- * @author     Saeed Sajadi
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @copyright  IDPay
+ * @author     Mohammad Nabipour
+ * @license    https://idpay.ir/
  */
 
 defined('MOODLE_INTERNAL') || die();
 
 if ($ADMIN->fulltree) {
 
+    //--- my order history ------------------------------------------------------------------------------------------
+    $previewnode = $PAGE->navigation->add((get_string('idpay_history', 'enrol_idpay')), new moodle_url('/enrol/idpay/idpay_log.php'), navigation_node::TYPE_CONTAINER);
+    $previewnode->make_active();
+
     //--- settings ------------------------------------------------------------------------------------------
     $settings->add(new admin_setting_heading('enrol_idpay_settings', '', get_string('pluginname_desc', 'enrol_idpay')));
 
-    $settings->add(new admin_setting_configtext('enrol_idpay/api_key',
-                   get_string('api_key', 'enrol_idpay'),
-                   'Copy API Login ID from merchant account & paste here', '', PARAM_RAW));;
-    $settings->add(new admin_setting_configcheckbox('enrol_idpay/sandbox',
-                   get_string('sandbox', 'enrol_idpay'), '', 0));
+    $settings->add(new admin_setting_configtext('enrol_idpay/api_key', get_string('api_key', 'enrol_idpay'), '', '', PARAM_RAW));;
 
-    $settings->add(new admin_setting_configcheckbox('enrol_idpay/usezaringate',
-                   get_string('usezaringate', 'enrol_idpay'), get_string('usezaringate_description', 'enrol_idpay'), 0));
+    $settings->add(new admin_setting_configtext('enrol_idpay/currency', get_string('currency', 'enrol_idpay'), '', '', PARAM_RAW));;
+
+    $settings->add(new admin_setting_configcheckbox('enrol_idpay/sandbox', get_string('sandbox', 'enrol_idpay'), '', 0));
 
     $settings->add(new admin_setting_configcheckbox('enrol_idpay/mailstudents', get_string('mailstudents', 'enrol_idpay'), '', 0));
 
@@ -47,18 +47,21 @@ if ($ADMIN->fulltree) {
     // Note: let's reuse the ext sync constants and strings here, internally it is very similar,
     //       it describes what should happen when users are not supposed to be enrolled any more.
     $options = array(
-        ENROL_EXT_REMOVED_KEEP           => get_string('extremovedkeep', 'enrol'),
+        ENROL_EXT_REMOVED_KEEP => get_string('extremovedkeep', 'enrol'),
         ENROL_EXT_REMOVED_SUSPENDNOROLES => get_string('extremovedsuspendnoroles', 'enrol'),
-        ENROL_EXT_REMOVED_UNENROL        => get_string('extremovedunenrol', 'enrol'),
+        ENROL_EXT_REMOVED_UNENROL => get_string('extremovedunenrol', 'enrol'),
     );
+
     $settings->add(new admin_setting_configselect('enrol_idpay/expiredaction', get_string('expiredaction', 'enrol_idpay'), get_string('expiredaction_help', 'enrol_idpay'), ENROL_EXT_REMOVED_SUSPENDNOROLES, $options));
+
+
 
     //--- enrol instance defaults ----------------------------------------------------------------------------
     $settings->add(new admin_setting_heading('enrol_idpay_defaults',
         get_string('enrolinstancedefaults', 'admin'), get_string('enrolinstancedefaults_desc', 'admin')));
 
-    $options = array(ENROL_INSTANCE_ENABLED  => get_string('yes'),
-                     ENROL_INSTANCE_DISABLED => get_string('no'));
+    $options = array(ENROL_INSTANCE_ENABLED => get_string('yes'),
+        ENROL_INSTANCE_DISABLED => get_string('no'));
     $settings->add(new admin_setting_configselect('enrol_idpay/status',
         get_string('status', 'enrol_idpay'), get_string('status_desc', 'enrol_idpay'), ENROL_INSTANCE_DISABLED, $options));
 
@@ -77,4 +80,5 @@ if ($ADMIN->fulltree) {
 
     $settings->add(new admin_setting_configduration('enrol_idpay/enrolperiod',
         get_string('enrolperiod', 'enrol_idpay'), get_string('enrolperiod_desc', 'enrol_idpay'), 0));
+
 }

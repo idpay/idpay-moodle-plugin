@@ -15,13 +15,10 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Adds new instance of enrol_idpay to specified course
- * or edits current instance.
- *
  * @package    enrol_idpay
- * @copyright  2018 SaeedSajadi<saeed.sajadi@gmail.com>
- * @author     Saeed Sajadi
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @copyright  IDPay
+ * @author     Mohammad Nabipour
+ * @license    https://idpay.ir/
  */
 
 require('../../config.php');
