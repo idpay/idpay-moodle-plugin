@@ -15,21 +15,12 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Listens for Instant Payment Notification from idpay
- *
- * This script waits for Payment notification from idpay,
- * then double checks that data by sending it back to idpay.
- * If idpay verifies this then it sets up the enrolment for that
- * user.
- *
  * @package    enrol_idpay
- * @copyright  2018 SaeedSajadi<saeed.sajadi@gmail.com>
- * @author     Saeed Sajadi
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @copyright  IDPay
+ * @author     Mohammad Nabipour
+ * @license    https://idpay.ir/
  */
 
-// Disable moodle specific debug messages and any errors in output,
-// comment out when debugging or better look into error log!
 define('NO_DEBUG_DISPLAY', true);
 
 require("../../config.php");

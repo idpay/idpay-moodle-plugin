@@ -17,13 +17,13 @@
 /**
  * Strings for component 'enrol_idpay', language 'en'.
  * @package    enrol_idpay
- * @copyright  2018 SaeedSajadi<saeed.sajadi@gmail.com>
- * @author     Saeed Sajadi
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @copyright  IDPay
+ * @author     Mohammad Nabipour
+ * @license    https://idpay.ir/
  */
 
 $string['assignrole'] = 'Assign role';
-$string['api_key'] = 'sss';
+$string['api_key'] = 'api_key';
 $string['sandbox'] = 'sandbox';
 $string['cost'] = 'Enrol cost';
 $string['costerror'] = 'The enrolment cost is not numeric';
@@ -57,5 +57,5 @@ $string['sendpaymentbutton'] = 'Send payment via idpay';
 $string['status'] = 'Allow idpay enrolments';
 $string['status_desc'] = 'Allow users to use idpay to enrol into a course by default.';
 $string['unenrolselfconfirm'] = 'Do you really want to unenrol yourself from course "{$a}"?';
-$string['usezaringate'] = 'Use zaringate';
-$string['usezaringate_description'] = 'check to use zaringate or leave this to use normal webgate';
+$string['idpay_history'] = "History of IDPay transactions";
+$string['enrol_idpay_desc'] = 'you can see all fo transaction history';

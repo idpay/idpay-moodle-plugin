@@ -15,11 +15,11 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Strings for component 'enrol_idpay', language 'en'.
+ * Strings for component 'enrol_idpay', language 'fa'.
  * @package    enrol_idpay
- * @copyright  2018 SaeedSajadi<saeed.sajadi@gmail.com>
- * @author     Saeed Sajadi
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @copyright  IDPay
+ * @author     Mohammad Nabipour
+ * @license    https://idpay.ir/
  */
 
 $string['assignrole'] = 'اختصاص نقش';
@@ -50,12 +50,12 @@ $string['idpay:config'] = 'پیکربندی ثبت نام با آیدی پی';
 $string['idpay:manage'] = 'مدیریت کاربران ثبت نام شده';
 $string['idpay:unenrol'] = 'اخراج کاربر از درس';
 $string['idpay:unenrolself'] = 'اخراج خود از درس';
-$string['idpayaccepted'] = 'پرداخت شما توسط درگاه های مورد تایید است.';
-$string['pluginname'] = 'آیدی پی';
+$string['idpayaccepted'] = 'پرداخت امن به وسیله کلیه کارتهای عضو شتاب با درگاه پرداخت آیدی پی';
+$string['pluginname'] = 'پرداخت امن با آیدی پی';
 $string['pluginname_desc'] = 'ماژول پرداخت شهریه درس آیدی پی این امکان را به شما می هد که برای درس ها یک شهریه به صورت کلی و یا اختصاصی برای هر درس مبلغ خاصی تعیین کنید و یا اینکه مبلغ را صفر بگذارید تا کاربر بدون هزینه پرداخت از درس استفاده نماید.';
 $string['sendpaymentbutton'] = 'پرداخت هزینه';
 $string['status'] = 'اجازه ثبت نام با آیدی پی';
 $string['status_desc'] = 'به کاربران اجازه داده می شود که با پرداخت هزینه ثبت نام در درس ثبت نام کنند.';
 $string['unenrolselfconfirm'] = 'آیا اطمینان دارید که میخواهید خود را از درس "{$a}" اخراج کنید؟';
-$string['usezaringate'] = 'استفاده از زرین گیت';
-$string['usezaringate_description'] = 'برای استفاده از زرین گیت (درگا) تیک این گزینه را بزنید، و در صورتی که میخواهید از درگاه معمولی آیدی پی استفاده نمایید تیک این گزینه را بردارید.';
+$string['idpay_history'] = ' تاریخچه تراکنش های آیدی پی';
+$string['enrol_idpay_desc'] = 'شما میتوانید تاریخچه تراکنش های خود را ببینید';

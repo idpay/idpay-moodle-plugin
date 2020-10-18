@@ -14,28 +14,23 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
+
 /**
- * idpay enrolment plugin.
- *
- * This plugin allows you to set up paid courses.
  * @package    enrol_idpay
- * @copyright  2018 SaeedSajadi<saeed.sajadi@gmail.com>
- * @author     Saeed Sajadi
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @copyright  IDPay
+ * @author     Mohammad Nabipour
+ * @license    https://idpay.ir/
  */
 
 defined('MOODLE_INTERNAL') || die();
 
 /**
  * idpay enrolment plugin implementation.
- * @author  Eugene Venter - based on code by Martin Dougiamas and others
- * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- */
+ **/
 class enrol_idpay_plugin extends enrol_plugin {
 
     public function get_currencies() {
-        // See https://www.idpay.com/cgi-bin/webscr?cmd=p/sell/mc/mc_intro-outside,
-        // 3-character ISO-4217: https://cms.idpay.com/us/cgi-bin/?cmd=_render-content&content_ID=developer/e_howto_api_currency_codes
+
         $codes = array(
             'IRR', 'USD');
         $currencies = array();
@@ -46,18 +41,6 @@ class enrol_idpay_plugin extends enrol_plugin {
         return $currencies;
     }
 
-    /**
-     * Returns optional enrolment information icons.
-     *
-     * This is used in course list for quick overview of enrolment options.
-     *
-     * We are not using single instance parameter because sometimes
-     * we might want to prevent icon repetition when multiple instances
-     * of one type exist. One instance may also produce several icons.
-     *
-     * @param array $instances all enrol instances of this type in one course
-     * @return array of pix_icon
-     */
     public function get_info_icons(array $instances) {
         $found = false;
         foreach ($instances as $instance) {
@@ -96,10 +79,10 @@ class enrol_idpay_plugin extends enrol_plugin {
     }
 
     /**
-     * Sets up navigation entries.
-     *
-     * @param object $instance
-     * @return void
+     * @param navigation_node $instancesnode
+     * @param stdClass $instance
+     * @throws coding_exception
+     * @throws moodle_exception
      */
     public function add_course_navigation($instancesnode, stdClass $instance) {
         if ($instance->enrol !== 'idpay') {
@@ -114,9 +97,10 @@ class enrol_idpay_plugin extends enrol_plugin {
     }
 
     /**
-     * Returns edit icons for the page with list of instances
      * @param stdClass $instance
      * @return array
+     * @throws coding_exception
+     * @throws moodle_exception
      */
     public function get_action_icons(stdClass $instance) {
         global $OUTPUT;
@@ -138,9 +122,10 @@ class enrol_idpay_plugin extends enrol_plugin {
     }
 
     /**
-     * Returns link to page which may be used to add new instance of enrolment plugin in course.
      * @param int $courseid
-     * @return moodle_url page url
+     * @return moodle_url|null
+     * @throws coding_exception
+     * @throws moodle_exception
      */
     public function get_newinstance_link($courseid) {
         $context = context_course::instance($courseid, MUST_EXIST);
