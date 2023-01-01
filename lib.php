@@ -31,46 +31,111 @@ class enrol_idpay_plugin extends enrol_plugin
         if ($cost >= 10000) {
 
             if (!isguestuser()) {
-                $coursefullname = format_string($course->fullname, true, array('context' => $context));
-                $courseshortname = format_string($course->shortname, true, array('context' => $context));
-                $userfullname = fullname($USER);
-                $userfirstname = $USER->firstname;
-                $userlastname = $USER->lastname;
-                $useraddress = $USER->address;
-                $usercity = $USER->city;
-                $instancename = $this->get_instance_name($instance);
-                include($CFG->dirroot . '/enrol/idpay/formPayment.php');
+                $courseFullName = format_string($course->fullname, true, array('context' => $context));
+                $courseShortName = format_string($course->shortname, true, array('context' => $context));
+                $userFullName = fullname($USER);
+                $userFirstName = $USER->firstname;
+                $userLastName = $USER->lastname;
+                $userAddress = $USER->address;
+                $userCity = $USER->city;
+                $instanceName = $this->get_instance_name($instance);
+
+                $pluginInstance = new enrol_idpay_plugin();
+                $currency = $pluginInstance->get_config('currency');
+                $paymentUrl = "{$CFG->wwwroot}/enrol/idpay/request.php";
+                $notifyUrl = "{$CFG->wwwroot}/enrol/idpay/ipn.php";
+                $returnUrl = "{$CFG->wwwroot}/enrol/idpay/return.php?id={$course->id}";
+                $cancelUrl = "$CFG->wwwroot";
+
+                $paymentRequiredTitle = get_string("paymentrequired");
+                $paymentInstantTitle = get_string("paymentinstant");
+                $costTitle = get_string("cost");
+                $userTitle = get_string('user');
+                $continueToCourseTitle = get_string('continuetocourse');
+                $submitTitle = get_string("sendpaymentbutton", "enrol_idpay");
+
+                echo "<div style='text-align: center'>";
+                echo "<p>{$paymentRequiredTitle}</p>";
+                echo "<p><b>{$instanceName}</b></p>";
+                echo "<p><b>{$costTitle} : {$currency} {$cost}</b></p>";
+                echo "<p>{$paymentInstantTitle}</p>";
+                echo "<form action='{$paymentUrl}' method='post'>";
+                echo "<input type='hidden' name='item_name' value='{$courseFullName}' />";
+                echo "<input type='hidden' name='item_number' value='{$courseShortName}' />";
+                echo "<input type='hidden' name='quantity' value='1' />";
+                echo "<input type='hidden' name='on0' value='{$userTitle}' />";
+                echo "<input type='hidden' name='os0' value='{$userFullName}' />";
+                echo "<input type='hidden' name='course_id' value='{$course->id}' />";
+                echo "<input type='hidden' name='instance_id' value='{$instance->id}' />";
+                echo "<input type='hidden' name='amount' value='{$cost}' />";
+                echo "<input type='hidden' name='notify_url' value='{$notifyUrl}' />";
+                echo "<input type='hidden' name='return' value='{$returnUrl}' />";
+                echo "<input type='hidden' name='cancel_return' value='{$cancelUrl}' />";
+                echo "<input type='hidden' name='rm' value='2' />";
+                echo "<input type='hidden' name='cbt' value='{$continueToCourseTitle}' />";
+                echo "<input type='hidden' name='first_name' value='{$userFirstName}' />";
+                echo "<input type='hidden' name='last_name' value='{$userLastName}' />";
+                echo "<input type='hidden' name='address' value='{$userAddress}' />";
+                echo "<input type='hidden' name='city' value='{$userCity}' />";
+                echo "<input type='hidden' name='email' value='{$USER->email}' />";
+                echo "<input type='hidden' name='country' value='{$USER->country}' />";
+                echo "<input type='submit' value='{$submitTitle}' />";
+                echo "</form>";
+                echo "</div>";
+
             } else {
                 $wwwroot = empty($CFG->loginhttps) ? $wwwroot = $CFG->wwwroot : str_replace("http://", "https://", $CFG->wwwroot);
-                echo '<div class="mdl-align"><p>' . get_string('paymentrequired') . '</p>';
-                echo '<p><b>' . get_string('cost') . ": $instance->currency $cost" . '</b></p>';
-                echo '<p><a href="' . $wwwroot . '/login/">' . get_string('loginsite') . '</a></p>';
-                echo '</div>';
+                $text1 = get_string('paymentrequired');
+                $text2 = get_string('cost');
+                $text3 = get_string('loginsite');
+                $urlLogin = "{$wwwroot}/login/";
+
+                echo "<div class='mdl-align'><p>{$text1}</p>";
+                echo "<p><b>{$text2} : {$instance->currency} {$cost}</b></p>";
+                echo "<p><a href='{$urlLogin}'>{$text3}</a></p>";
+                echo "</div>";
             }
         } else {
-            echo '<p>' . get_string('nocost', 'enrol_idpay') . '</p>'; // Not Supported IDPAY , Choose other enrolment methods
+            $notSupportTitle = get_string('nocost', 'enrol_idpay');
+            echo "<p>{$notSupportTitle}</p>";
         }
         return $OUTPUT->box(ob_get_clean());
     }
 
-    public function get_info_icons(array $instances)
+    private function getThumbnailImage(array $instances): array
     {
         $found = false;
         foreach ($instances as $instance) {
-            if ($instance->enrolstartdate != 0 && $instance->enrolstartdate > time()) {
-                continue;
-            }
-            if ($instance->enrolenddate != 0 && $instance->enrolenddate < time()) {
+            $startDateCondition = $instance->enrolstartdate != 0 && $instance->enrolstartdate > time();
+            $endDateCondition = $instance->enrolenddate != 0 && $instance->enrolenddate < time();
+            if ($startDateCondition || $endDateCondition) {
                 continue;
             }
             $found = true;
             break;
         }
         if ($found) {
-            return array(new pix_icon('icon', get_string('pluginname', 'enrol_idpay'), 'enrol_idpay'));
+            $title = get_string('pluginname', 'enrol_idpay') ;
+            $pixIcon = new pix_icon('icon',$title , 'enrol_idpay',['class' => 'iconsize-big']);
+            return [$pixIcon];
         }
-        return array();
+        return [];
     }
+
+
+    /* ------------------------------- Built In Funcs ----------------------------------- */
+    public function get_info_icons(array $instances)
+    {
+        return $this->getThumbnailImage($instances);
+    }
+
+
+
+
+
+
+/* ---------------------------------------- Not Refactor ----------------------------------------------------- */
+
 
     public function roles_protected()
     {
@@ -109,7 +174,7 @@ class enrol_idpay_plugin extends enrol_plugin
 
         $context = context_course::instance($instance->courseid);
         if (has_capability('enrol/idpay:config', $context)) {
-            $managelink = new moodle_url('/enrol/idpay/edit.php', array('courseid' => $instance->courseid, 'id' => $instance->id));
+            $managelink = new moodle_url('/enrol/idpay/edit.php', ['courseid' => $instance->courseid, 'id' => $instance->id]);
             $instancesnode->add($this->get_instance_name($instance), $managelink, navigation_node::TYPE_SETTING);
         }
     }
