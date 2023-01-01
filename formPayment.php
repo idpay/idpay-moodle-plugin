@@ -2,7 +2,7 @@
 <?php $plugininstance = new enrol_idpay_plugin(); ?>
 <p><?php print_string("paymentrequired") ?></p>
 <p><b><?php echo $instancename; ?></b></p>
-<p><b><?php echo get_string("cost").": {$plugininstance->get_config('currency')} {$localisedcost}"; ?></b></p>
+<p><b><?php echo get_string("cost").": {$plugininstance->get_config('currency')} {$cost}"; ?></b></p>
 <p><?php print_string("paymentinstant") ?></p>
 <?php  $idpayurl = $CFG->wwwroot.'/enrol/idpay/request.php'; ?>
 
