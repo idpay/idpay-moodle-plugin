@@ -6,11 +6,13 @@
  * @license    https://idpay.ir/
  */
 
+global $CFG;
 require_once(dirname(__FILE__) . '/../../config.php');
 require_once("lib.php");
 require_once($CFG->libdir . '/enrollib.php');
 require_once($CFG->libdir . '/filelib.php');
-global $CFG, $_SESSION, $USER, $DB,$OUTPUT;
+global $_SESSION, $USER, $DB,$OUTPUT,$PAGE;
+
 
 $systemcontext = context_system::instance();
 $PAGE->set_context($systemcontext);

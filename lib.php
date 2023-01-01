@@ -1,20 +1,4 @@
 <?php
-// This file is part of Moodle - http://moodle.org/
-//
-// Moodle is free software: you can redistribute it and/or modify
-// it under the terms of the GNU General Public License as published by
-// the Free Software Foundation, either version 3 of the License, or
-// (at your option) any later version.
-//
-// Moodle is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-// GNU General Public License for more details.
-//
-// You should have received a copy of the GNU General Public License
-// along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
-
-
 /**
  * @package    enrol_idpay
  * @copyright  IDPay
@@ -24,9 +8,6 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-/**
- * idpay enrolment plugin implementation.
- **/
 class enrol_idpay_plugin extends enrol_plugin {
 
     public function get_currencies() {
@@ -144,6 +125,7 @@ class enrol_idpay_plugin extends enrol_plugin {
      *
      * @param stdClass $instance
      * @return string html text, usually a form in a text box
+     * @throws coding_exception
      */
     function enrol_page_hook(stdClass $instance) {
         global $CFG, $USER, $OUTPUT, $PAGE, $DB;

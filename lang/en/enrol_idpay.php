@@ -1,19 +1,4 @@
 <?php
-// This file is part of Moodle - http://moodle.org/
-//
-// Moodle is free software: you can redistribute it and/or modify
-// it under the terms of the GNU General Public License as published by
-// the Free Software Foundation, either version 3 of the License, or
-// (at your option) any later version.
-//
-// Moodle is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-// GNU General Public License for more details.
-//
-// You should have received a copy of the GNU General Public License
-// along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
-
 /**
  * Strings for component 'enrol_idpay', language 'en'.
  * @package    enrol_idpay
@@ -40,7 +25,7 @@ $string['enrolperiod_help'] = 'Length of time that the enrolment is valid, start
 $string['enrolstartdate'] = 'Start date';
 $string['enrolstartdate_help'] = 'If enabled, users can be enrolled from this date onward only.';
 $string['expiredaction'] = 'Enrolment expiration action';
-$string['expiredaction_help'] = 'Select action to carry out when user enrolment expires. Please note that some user data and settings are purged from course during course unenrolment.';
+$string['expiredaction_help'] = 'Message : Select action to carry out when user enrolment expires. Please note that some user data and settings are purged from course during course unenrolment';
 $string['mailadmins'] = 'Notify admin';
 $string['mailstudents'] = 'Notify students';
 $string['mailteachers'] = 'Notify teachers';

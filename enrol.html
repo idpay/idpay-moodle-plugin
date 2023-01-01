@@ -1,19 +1,12 @@
 <div align="center">
-<?php
-$plugininstance = new enrol_idpay_plugin();
-?>
+<?php $plugininstance = new enrol_idpay_plugin(); ?>
 <p><?php print_string("paymentrequired") ?></p>
 <p><b><?php echo $instancename; ?></b></p>
 <p><b><?php echo get_string("cost").": {$plugininstance->get_config('currency')} {$localisedcost}"; ?></b></p>
-<!--<p><img alt="<?php print_string('idpayaccepted', 'enrol_idpay') ?>" src="<?php echo $idpayicon ?>" /></p>-->
 <p><?php print_string("paymentinstant") ?></p>
-<?php
-    $idpayurl = $CFG->wwwroot.'/enrol/idpay/request.php';
-?>
-
+<?php  $idpayurl = $CFG->wwwroot.'/enrol/idpay/request.php'; ?>
 
 <form action="<?php echo $idpayurl ?>" method="post">
-
 <input type="hidden" name="item_name" value="<?php p($coursefullname) ?>" />
 <input type="hidden" name="item_number" value="<?php p($courseshortname) ?>" />
 <input type="hidden" name="quantity" value="1" />
@@ -27,7 +20,6 @@ $plugininstance = new enrol_idpay_plugin();
 <input type="hidden" name="cancel_return" value="<?php echo $CFG->wwwroot ?>" />
 <input type="hidden" name="rm" value="2" />
 <input type="hidden" name="cbt" value="<?php print_string("continuetocourse") ?>" />
-
 <input type="hidden" name="first_name" value="<?php p($userfirstname) ?>" />
 <input type="hidden" name="last_name" value="<?php p($userlastname) ?>" />
 <input type="hidden" name="address" value="<?php p($useraddress) ?>" />

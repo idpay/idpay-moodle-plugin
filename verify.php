@@ -1,4 +1,4 @@
-﻿﻿<?php
+﻿<?php
 /**
  * @package    enrol_idpay
  * @copyright  IDPay
@@ -6,11 +6,13 @@
  * @license    https://idpay.ir/
  */
 
+global $CFG;
 require_once(dirname(__FILE__) . '/../../config.php');
 require_once("lib.php");
 require_once($CFG->libdir . '/enrollib.php');
 require_once($CFG->libdir . '/filelib.php');
-global $CFG, $_SESSION, $USER, $DB, $OUTPUT;
+global $PAGE,$_SESSION, $USER, $DB, $OUTPUT;
+
 $systemcontext = context_system::instance();
 $plugininstance = new enrol_idpay_plugin();
 $PAGE->set_context($systemcontext);
