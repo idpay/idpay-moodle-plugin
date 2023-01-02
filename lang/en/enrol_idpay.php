@@ -43,4 +43,5 @@ $string['status'] = 'Allow idpay enrolments';
 $string['status_desc'] = 'Allow users to use idpay to enrol into a course by default.';
 $string['unenrolselfconfirm'] = 'Do you really want to unenrol yourself from course "{$a}"?';
 $string['idpay_history'] = "History of IDPay transactions";
+$string['idpay_transactions'] = '** Display List Of Transactions Of IDPAY Click in Navigation Page (History of IDPay transactions ) Link **';
 $string['enrol_idpay_desc'] = 'you can see all fo transaction history';

@@ -17,9 +17,13 @@ if ($ADMIN->fulltree) {
     $previewNode = $PAGE->navigation->add($pageTitle, $pageLink, navigation_node::TYPE_CONTAINER);
     $previewNode->make_active();
 
-    /* make setting plugin generator */
-
     /** @var admin_settingpage $settings * */
+    $headingText = get_string('idpay_transactions', 'enrol_idpay');
+    $heading = new admin_setting_heading('enrol_idpay_transaction', '', $headingText);
+    $settings->add($heading);
+
+
+    /* make setting plugin generator */
     $headingText = get_string('pluginname_desc', 'enrol_idpay');
     $heading = new admin_setting_heading('enrol_idpay_settings', '', $headingText);
     $settings->add($heading);

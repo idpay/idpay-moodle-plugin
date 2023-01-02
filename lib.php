@@ -146,8 +146,6 @@ class enrol_idpay_plugin extends enrol_plugin
                 $pluginInstance = new enrol_idpay_plugin();
                 $currency = $pluginInstance->get_config('currency');
                 $paymentUrl = "{$CFG->wwwroot}/enrol/idpay/request.php";
-                $notifyUrl = "{$CFG->wwwroot}/enrol/idpay/ipn.php";
-                $returnUrl = "{$CFG->wwwroot}/enrol/idpay/return.php?id={$course->id}";
                 $cancelUrl = "$CFG->wwwroot";
 
                 $paymentRequiredTitle = get_string("paymentrequired");
@@ -171,8 +169,6 @@ class enrol_idpay_plugin extends enrol_plugin
                 echo "<input type='hidden' name='course_id' value='{$course->id}' />";
                 echo "<input type='hidden' name='instance_id' value='{$instance->id}' />";
                 echo "<input type='hidden' name='amount' value='{$cost}' />";
-                echo "<input type='hidden' name='notify_url' value='{$notifyUrl}' />";
-                echo "<input type='hidden' name='return' value='{$returnUrl}' />";
                 echo "<input type='hidden' name='cancel_return' value='{$cancelUrl}' />";
                 echo "<input type='hidden' name='rm' value='2' />";
                 echo "<input type='hidden' name='cbt' value='{$continueToCourseTitle}' />";
@@ -237,34 +233,47 @@ class enrol_idpay_plugin extends enrol_plugin
         return $this->doCheckout($instance);
     }
 
-
-
-
-/* ---------------------------------------- Not Refactor ----------------------------------------------------- */
-
-
-    public function roles_protected()
+    public function allow_manage(stdClass $instance)
     {
-        // users with role assign cap may tweak the roles later
-        return false;
+        return true;
     }
 
     public function allow_unenrol(stdClass $instance)
     {
-        // users with unenrol cap may unenrol other users manually - requires enrol/idpay:unenrol
         return true;
     }
 
-    public function allow_manage(stdClass $instance)
+    public function roles_protected()
     {
-        // users with manage cap may tweak period and status - requires enrol/idpay:manage
-        return true;
+        return false;
     }
 
     public function show_enrolme_link(stdClass $instance)
     {
         return ($instance->status == ENROL_INSTANCE_ENABLED);
     }
+
+    public function can_delete_instance($instance)
+    {
+        $context = context_course::instance($instance->courseid);
+        return has_capability('enrol/idpay:config', $context);
+    }
+
+    public function can_hide_show_instance($instance)
+    {
+        $context = context_course::instance($instance->courseid);
+        return has_capability('enrol/idpay:config', $context);
+    }
+/* ---------------------------------------- Not Refactor ----------------------------------------------------- */
+
+
+
+
+
+
+
+
+
 
     /**
      * @param navigation_node $instancesnode
@@ -411,33 +420,10 @@ class enrol_idpay_plugin extends enrol_plugin
      * @param progress_trace $trace
      * @return int exit code, 0 means ok
      */
-    public function sync(progress_trace $trace)
+    public function sync(progress_trace $trace): int
     {
         $this->process_expirations($trace);
         return 0;
     }
 
-    /**
-     * Is it possible to delete enrol instance via standard UI?
-     *
-     * @param stdClass $instance
-     * @return bool
-     */
-    public function can_delete_instance($instance)
-    {
-        $context = context_course::instance($instance->courseid);
-        return has_capability('enrol/idpay:config', $context);
-    }
-
-    /**
-     * Is it possible to hide/show enrol instance via standard UI?
-     *
-     * @param stdClass $instance
-     * @return bool
-     */
-    public function can_hide_show_instance($instance)
-    {
-        $context = context_course::instance($instance->courseid);
-        return has_capability('enrol/idpay:config', $context);
-    }
 }

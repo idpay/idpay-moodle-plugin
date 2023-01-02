@@ -43,4 +43,5 @@ $string['status'] = 'اجازه ثبت نام با آیدی پی';
 $string['status_desc'] = 'به کاربران اجازه داده می شود که با پرداخت هزینه ثبت نام در درس ثبت نام کنند.';
 $string['unenrolselfconfirm'] = 'آیا اطمینان دارید که میخواهید خود را از درس "{$a}" اخراج کنید؟';
 $string['idpay_history'] = ' تاریخچه تراکنش های آیدی پی';
+$string['idpay_transactions'] = '** برای نمایش تراکنش های ایدی پی در بلای صفحه روی گزینه (History of IDPay transactions ) کلیک کنید **';
 $string['enrol_idpay_desc'] = 'شما میتوانید تاریخچه تراکنش های خود را ببینید';
