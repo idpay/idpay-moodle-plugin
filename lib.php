@@ -504,8 +504,14 @@ class enrol_idpay_plugin extends enrol_plugin
         return has_capability('enrol/idpay:config', $context);
     }
 
-
-    /* ---------------------------------------- Not Refactor ----------------------------------------------------- */
+    public function get_newinstance_link($courseid)
+    {
+        $context = context_course::instance($courseid, MUST_EXIST);
+        if (!has_capability('moodle/course:enrolconfig', $context) or !has_capability('enrol/idpay:config', $context)) {
+            return NULL;
+        }
+        return new moodle_url('/enrol/idpay/edit.php', array('courseid' => $courseid));
+    }
 
     public function add_course_navigation($instancesnode, stdClass $instance)
     {
@@ -540,17 +546,7 @@ class enrol_idpay_plugin extends enrol_plugin
         return $icons;
     }
 
-    public function get_newinstance_link($courseid)
-    {
-        $context = context_course::instance($courseid, MUST_EXIST);
-
-        if (!has_capability('moodle/course:enrolconfig', $context) or !has_capability('enrol/idpay:config', $context)) {
-            return NULL;
-        }
-
-        // multiple instances supported - different cost for different roles
-        return new moodle_url('/enrol/idpay/edit.php', array('courseid' => $courseid));
-    }
+    /* ---------------------------------------- Not Refactor ----------------------------------------------------- */
 
     public function restore_instance(restore_enrolments_structure_step $step, stdClass $data, $course, $oldid)
     {
