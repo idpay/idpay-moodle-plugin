@@ -10,6 +10,109 @@ defined('MOODLE_INTERNAL') || die();
 
 class enrol_idpay_plugin extends enrol_plugin
 {
+    public const PAYMENT_CREATED = 'created';
+    public const PAYMENT_FAILED = 'failed';
+    public const PAYMENT_PENDING = 'pending';
+    public const PAYMENT_SUCCESS = 'success';
+
+    public function orderUpdate($orderId,$reason,$status,$log,$transactionId = null){
+        global $DB;
+        $data = $DB->get_record('enrol_idpay', ['id' => $orderId]);
+        $data->idpay_id = $transactionId ?? '-';
+        $data->pending_reason = $reason;
+        $data->payment_status = $status;
+        $data->log = $log;
+        $DB->update_record('enrol_idpay', $data);
+    }
+
+    public function doPayment(array $request)
+    {
+        global $_SESSION, $USER, $DB,$OUTPUT,$CFG;
+
+        $_SESSION['courseid'] = $_POST['course_id'];
+        $_SESSION['instanceid'] = $_POST['instance_id'];
+        $_SESSION['totalcost'] = $_POST['amount'];
+        $_SESSION['userid'] = $USER->id;
+
+        $course_id = (int) $_POST['course_id'];
+        $instance_id = $_POST['instance_id'];
+        $api_key = $this->get_config('api_key');
+        $sandbox = $this->get_config('sandbox');
+        $amount = (int) $_POST['amount'];
+        $mail = $USER->email;
+        $callback = "{$CFG->wwwroot}/enrol/idpay/verify.php?course_id={$course_id}";
+        $description = "Payment For Course : {$_POST['item_name']}";
+        $phone = $USER->phone1;
+        $user_name = "{$USER->firstname} {$USER->lastname}";
+        $item_name = $_POST['item_name'];
+
+        $data = new stdClass();
+        $data->receiver_email = $mail;
+        $data->receiver_id = $USER->id;
+        $data->item_name = $item_name;
+        $data->courseid = $course_id;
+        $data->userid = $USER->id;
+        $data->username = $user_name;
+        $data->instanceid = $instance_id;
+        $data->memo = "پرداخت امن با آیدی پی";
+        $data->tax = "0";
+        $data->payment_status = self::PAYMENT_CREATED;
+        $data->pending_reason = 'Waiting For Token';
+        $data->payment_type = 'IRR';
+        $data->amount = $amount;
+        $data->refnumber =  '-';
+        $data->idpay_id = '-';
+        $data->log = "در انتظار دریافت توکن";
+
+        $order_id = $DB->insert_record("enrol_idpay", $data);
+
+        $params = array(
+            'order_id' => $order_id,
+            'amount' => $amount,
+            'name' => $user_name,
+            'phone' => $phone,
+            'mail' => $mail,
+            'desc' => $description,
+            'callback' => $callback,
+        );
+
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, 'https://api.idpay.ir/v1.1/payment');
+        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($params));
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+            'Content-Type: application/json',
+            'X-API-KEY:' . $api_key,
+            'X-SANDBOX:' . $sandbox
+        ));
+
+        $result = curl_exec($ch);
+        $result = json_decode($result);
+        $http_status = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        curl_close($ch);
+
+        if ($http_status != 201 || empty($result) || empty($result->id) || empty($result->link)) {
+            $msg = sprintf('خطا هنگام ایجاد تراکنش. وضعیت خطا: %s - کد خطا: %s - پیام خطا: %s', $http_status, $result->error_code, $result->error_message);
+            $url =  $CFG->wwwroot . '/enrol/index.php?id=' . $_POST['course_id'];
+
+            $this->orderUpdate($order_id,'Can Not Create Transaction',self::PAYMENT_FAILED,$msg);
+
+            echo $OUTPUT->header();
+            echo '<h3 dir="rtl" style="text-align:center; color: red;">' . $msg . '</h3>';
+            echo '<div class="single_button" style="text-align:center;">';
+            echo "<a href='{$url}'>";
+            echo '<button> بازگشت به صفحه قبلی  </button></a></div>';
+            echo $OUTPUT->footer();
+            exit;
+
+        } else {
+
+            $this->orderUpdate($order_id,'Redirected To IPG',self::PAYMENT_PENDING,'انتقال به درگاه',$result->id);
+            Header("Location: $result->link");
+            exit;
+        }
+
+    }
 
     private function doCheckout(stdClass $instance){
         global $CFG, $USER, $OUTPUT, $PAGE, $DB;
@@ -129,7 +232,10 @@ class enrol_idpay_plugin extends enrol_plugin
         return $this->getThumbnailImage($instances);
     }
 
-
+    public function enrol_page_hook(stdClass $instance)
+    {
+        return $this->doCheckout($instance);
+    }
 
 
 
@@ -221,19 +327,6 @@ class enrol_idpay_plugin extends enrol_plugin
 
         // multiple instances supported - different cost for different roles
         return new moodle_url('/enrol/idpay/edit.php', array('courseid' => $courseid));
-    }
-
-    /**
-     * Creates course enrol form, checks if form submitted
-     * and enrols user if necessary. It can also redirect.
-     *
-     * @param stdClass $instance
-     * @return string html text, usually a form in a text box
-     * @throws coding_exception
-     */
-    function enrol_page_hook(stdClass $instance)
-    {
-       return $this->doCheckout($instance);
     }
 
 
