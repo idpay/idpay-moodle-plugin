@@ -18,8 +18,8 @@ You can obtain the API Key by going to your [dashboard](https://idpay.ir/dashboa
 == Installation ==
 
 0. After creating a web service on https://idpay.ir and getting an API Key, follow this instruction:
-1. Activate IDPay Payment Gateway For RsForm Pro.
-2. Go Settings IDPay Payment Gateway For RsForm Pro.
+1. Activate IDPay Payment Gateway For Moodle 4.0
+2. Go Settings IDPay Payment Gateway For Moodle 4.0
 3. Enter the API Key And More Setting.
 4. Save Them.
 
