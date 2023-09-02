@@ -132,7 +132,6 @@ if ($mform->is_cancelled()) {
         $instance->status         = $data->status;
         $instance->name           = $data->name;
         $instance->cost           = (int) $data->cost;
-        $instance->currency       = $data->currency;
         $instance->roleid         = $data->roleid;
         $instance->enrolperiod    = $data->enrolperiod;
         $instance->enrolstartdate = $data->enrolstartdate;
@@ -149,7 +148,6 @@ if ($mform->is_cancelled()) {
             'status'=>$data->status,
             'name'=>$data->name,
             'cost'=> (int) $data->cost,
-            'currency'=>$data->currency,
             'roleid'=>$data->roleid,
             'enrolperiod'=>$data->enrolperiod,
             'enrolstartdate'=>$data->enrolstartdate,
