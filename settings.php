@@ -7,7 +7,6 @@
  */
 
 defined('MOODLE_INTERNAL') || die();
-global $PAGE, $ADMIN;
 
 if ($ADMIN->fulltree) {
 
